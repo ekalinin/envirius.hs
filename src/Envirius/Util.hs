@@ -13,7 +13,16 @@ getAppVersion = "0.1.0"
 getAppName :: String
 getAppName = "envirius"
 
+trim :: [Char] -> [Char]
+trim = unwords . words
+
+unifyPluginStr :: [Char] -> [Char]
+unifyPluginStr s = map toLower $ trim s
+
 getPluginName :: [Char] -> [Char]
-getPluginName s = takeWhile (/= '=') $ dropWhile (== '-') sl
-    where trim = unwords . words
-          sl = map toLower $ trim s
+getPluginName s =
+    takeWhile (/= '=') $ dropWhile (== '-')  $ unifyPluginStr s
+
+getPluginVersion :: [Char] -> [Char]
+getPluginVersion s =
+    drop 1 $ dropWhile (/= '=') $ unifyPluginStr s

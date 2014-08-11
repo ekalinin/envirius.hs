@@ -1,6 +1,6 @@
 module Envirius.Commands.Mk where
 
-import Envirius.Util (getAppName)
+import Envirius.Util (getAppName, getPluginName)
 
 -- ------------------------------------------------------------------
 -- Action
