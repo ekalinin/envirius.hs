@@ -1,4 +1,4 @@
 *.swp
 TODO*
-cabal-dev
+.cabal-sandbox
 dist
