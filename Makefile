@@ -1,6 +1,9 @@
+init:
+	@cabal sandbox init
+
 build:
-	@cabal-dev configure
-	@cabal-dev build
+	@cabal configure
+	@cabal build
 
 tests:
 	#@cabal configure --enable-tests
