@@ -2,9 +2,11 @@ module Envirius.Util where
 
 import System.FilePath.Posix((</>))
 import System.Directory (getHomeDirectory, doesFileExist)
+import System.Directory (getDirectoryContents)
 import System.Environment (lookupEnv)
 import Data.Maybe (fromMaybe)
 import Data.Char (toLower, toUpper)
+import Data.List (sort)
 
 import Paths_envirius (version)
 import Data.Version (showVersion)
@@ -34,8 +36,8 @@ capitalized :: String -> String
 capitalized (x:xs) = toUpper x : map toLower xs
 capitalized [] = []
 
-getMetaRoot :: IO FilePath
-getMetaRoot = do
+getRoot :: IO FilePath
+getRoot = do
     -- http://www.christopherbiscardi.com/2014/02/06/environment-variables-in-haskell/
     home <- getHomeDirectory
     nv_home <- lookupEnv "NV_HOME"
@@ -43,8 +45,13 @@ getMetaRoot = do
 
 getEnvRoot :: IO FilePath
 getEnvRoot = do
-    nv_home <- getMetaRoot
+    nv_home <- getRoot
     return $ nv_home </> "envs"
+
+listEnvs :: IO [String]
+listEnvs = do
+    envs <- getEnvRoot >>= getDirectoryContents
+    return $ sort $ remove "." $ remove ".." envs
 
 getEnvPath :: String -> IO FilePath
 getEnvPath envName = do
