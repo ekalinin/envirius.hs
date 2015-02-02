@@ -31,6 +31,9 @@ main = do
     case rowArgs of
         (cmdStr:args) ->
             case readMaybe $ capitalized cmdStr :: Maybe Command of
-                Just cmd -> commandAction cmd args
+                Just cmd -> 
+                    case args of
+                        ["--help"] -> putStrLn $ commandHelp cmd
+                        _        -> commandAction cmd args
                 Nothing -> commandNotFound
         _ -> help
