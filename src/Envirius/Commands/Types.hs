@@ -17,22 +17,21 @@ class Commandable c where
 
 instance Commandable Command where
 
-    commandAction Ls opts = Ls.action opts
-    commandAction Mk opts = Mk.action opts
+    commandAction Ls = Ls.action
+    commandAction Mk = Mk.action
 
     commandDesc Ls = Ls.desc
     commandDesc Mk = Mk.desc
 
-    commandHelp cmd =
-        let help1 = [
+    commandHelp cmd = putStrLn $ unlines help'
+      where help_cmn = [
                 "Command:     " ++ (showCmd cmd),
                 "Description: " ++ (commandDesc cmd),
                 ""]
-            help2 = case cmd of
+            help_cmd = case cmd of
                        Ls -> Ls.help
                        Mk -> Mk.help
-            help' = help1 ++ help2
-        in putStrLn $ unlines help'
+            help' = help_cmn ++ help_cmd
 
 
 --data Shell = Ksh | Zsh | Sh | Bash | Docker | Lxc
