@@ -1,8 +1,7 @@
 module Envirius.Commands.Ls where
 
-import Data.Char (toLower)
 import Envirius.Commands.Types
-import Envirius.Util (listEnvs, showEnv)
+import Envirius.Util (listEnvs, showEnv, showCmd)
 
 
 instance Commandable Command where
@@ -22,7 +21,7 @@ instance Commandable Command where
 
     -- help for command
     commandHelp Ls = unlines [
-            "Command: " ++ (map toLower $ show Ls),
+            "Command: " ++ (showCmd Ls),
             "",
             "Options:",
             "   --no-meta      Do not show meta information of the environment"

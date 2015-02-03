@@ -84,3 +84,6 @@ showEnv showMeta envName = do
 
 remove :: Eq t => t -> [t] -> [t]
 remove r s = [c | c <- s, c /= r]
+
+showCmd :: Show a => a -> [Char]
+showCmd c = map toLower $ show c
