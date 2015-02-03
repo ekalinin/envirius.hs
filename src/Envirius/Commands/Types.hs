@@ -1,9 +1,12 @@
 module Envirius.Commands.Types where
 
 import Envirius.Commands.Ls as Ls
+import Envirius.Commands.Mk as Mk
 import Envirius.Util (showCmd)
 
-data Command = Ls deriving (Show, Read)
+data Command = Ls
+             | Mk
+             deriving (Show, Read)
 
 class Commandable c where
 
@@ -15,8 +18,10 @@ class Commandable c where
 instance Commandable Command where
 
     commandAction Ls opts = Ls.action opts
+    commandAction Mk opts = Mk.action opts
 
     commandDesc Ls = Ls.desc
+    commandDesc Mk = Mk.desc
 
     commandHelp cmd =
         let help1 = [
@@ -25,6 +30,7 @@ instance Commandable Command where
                 ""]
             help2 = case cmd of
                        Ls -> Ls.help
+                       Mk -> Mk.help
             help' = help1 ++ help2
         in putStrLn $ unlines help'
 
