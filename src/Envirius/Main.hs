@@ -4,13 +4,13 @@ import System.Environment (getArgs)
 import Text.Read (readMaybe)
 
 import Envirius.Commands.Types
-import Envirius.Commands.Ls()
 import Envirius.Util (getAppName, getAppVersion, capitalized)
 
 
-commandNotFound :: IO ()
-commandNotFound = putStrLn $ unlines [
-        "Command not found.",
+commandNotFound :: String -> IO ()
+commandNotFound cmd = putStrLn $ unlines [
+        "Error: '" ++ cmd ++ "'command not found.",
+        "",
         "Try follow command to get full list of commands:",
         "  " ++ getAppName ++ " --help"
     ]
@@ -20,7 +20,7 @@ help = putStrLn $ unlines [
         getAppName ++ " " ++ getAppVersion,
         "",
         "Commands:",
-        "   ls      " ++ (commandDesc Ls),
+        -- "   ls      " ++ (commandDesc Ls),
         "Try follow command to get help for certain command:",
         "   " ++ getAppName ++ " <command> --help"
     ]
@@ -33,7 +33,7 @@ main = do
             case readMaybe $ capitalized cmdStr :: Maybe Command of
                 Just cmd -> 
                     case args of
-                        ["--help"] -> putStrLn $ commandHelp cmd
-                        _        -> commandAction cmd args
-                Nothing -> commandNotFound
+                        ["--help"] -> commandHelp cmd
+                        _          -> commandAction cmd args
+                Nothing -> commandNotFound cmdStr
         _ -> help
