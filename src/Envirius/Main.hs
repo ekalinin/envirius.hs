@@ -29,6 +29,7 @@ main :: IO ()
 main = do
     rowArgs <- getArgs
     case rowArgs of
+        ["--help"] -> help
         (cmdStr:args) ->
             case readMaybe $ capitalized cmdStr :: Maybe Command of
                 Just cmd -> 
