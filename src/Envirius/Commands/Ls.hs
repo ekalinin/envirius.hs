@@ -1,6 +1,6 @@
 module Envirius.Commands.Ls where
 
-import Envirius.Util (listEnvs, showEnv, showCmd)
+import Envirius.Util (listEnvs, showEnv)
 
 -- main command action
 action :: [String] -> IO ()

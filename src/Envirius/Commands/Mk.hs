@@ -1,6 +1,6 @@
 module Envirius.Commands.Mk where
 
-import Envirius.Util (showCmd, getAppName)
+import Envirius.Util (getAppName)
 
 
 action :: [String] -> IO ()
