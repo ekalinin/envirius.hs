@@ -4,17 +4,20 @@ import Envirius.Commands.Ls as Ls
 import Envirius.Commands.Mk as Mk
 import Envirius.Util (showCmd)
 
+-- | Command type
 data Command = Ls
              | Mk
              deriving (Show, Read)
 
+
+-- | Type class for Commands
 class Commandable c where
 
     commandAction  :: c -> [String] -> IO()
     commandDesc    :: c -> String
     commandHelp    :: c -> IO()
 
-
+-- | Implementation of the main parts of Commands
 instance Commandable Command where
 
     commandAction Ls = Ls.action
