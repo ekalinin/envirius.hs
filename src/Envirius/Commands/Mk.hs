@@ -4,17 +4,27 @@ import Envirius.Util (getAppName)
 
 
 action :: [String] -> IO ()
-action _opts = putStrLn "Not implemented"
+action opts = do
+    if (length envName) == 0
+        then putStrLn "Please, enter a name for environment."
+        else putStrLn "Not implemented."
+  where envName = [o | o <- opts, (take 2 o) /= "--"]
+        saveMeta = "--no-meta" `elem` opts
+        reInstall = "--force" `elem` opts
+        activateAfter = "--on" `elem` opts
 
 desc :: String
 desc = "Create environment"
+
+usage :: String
+usage = "env-name [--plugin=version] [--plugin=version] ..."
 
 help :: [String]
 help = [
         "Options:",
         "   --on         Activate environment after installation",
-        "   --no-meta    Don't store meta in environment (plugin list).",
         "   --force      Re-create environment if it already exists",
+        "   --no-meta    Don't store meta in environment (plugin list).",
         "",
         "Examples:",
         "   If environment name is empty then it will be ganerated automatically.",

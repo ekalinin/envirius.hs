@@ -2,7 +2,7 @@ module Envirius.Commands.Types where
 
 import Envirius.Commands.Ls as Ls
 import Envirius.Commands.Mk as Mk
-import Envirius.Util (showCmd)
+import Envirius.Util (showCmd, getAppName)
 
 -- | Command type
 data Command = Ls
@@ -15,6 +15,7 @@ class Commandable c where
 
     commandAction  :: c -> [String] -> IO()
     commandDesc    :: c -> String
+    commandUsage   :: c -> String
     commandHelp    :: c -> IO()
 
 -- | Implementation of the main parts of Commands
@@ -26,9 +27,13 @@ instance Commandable Command where
     commandDesc Ls = Ls.desc
     commandDesc Mk = Mk.desc
 
+    commandUsage Ls = Ls.usage
+    commandUsage Mk = Mk.usage
+
     commandHelp cmd = putStrLn $ unlines help'
       where help_cmn = [
-                "Command:     " ++ (showCmd cmd),
+                "Usage:       " ++ getAppName ++ " "
+                                ++ (showCmd cmd) ++ " " ++ (commandUsage cmd),
                 "Description: " ++ (commandDesc cmd),
                 ""]
             help_cmd = case cmd of

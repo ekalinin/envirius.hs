@@ -17,6 +17,9 @@ action opts = do
 desc :: String
 desc = "List environments"
 
+usage :: String
+usage = "env-name [--plugin=version] [--plugin=version] ..."
+
 -- help for command
 help :: [String]
 help = [
