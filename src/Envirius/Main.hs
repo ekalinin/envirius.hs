@@ -3,7 +3,7 @@
 import System.Environment (getArgs)
 import Text.Read (readMaybe)
 
-import Envirius.Commands.Types
+import Envirius.Types.Command
 import Envirius.Util (getAppName, getAppVersion, capitalized)
 
 

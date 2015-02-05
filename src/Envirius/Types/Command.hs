@@ -1,4 +1,4 @@
-module Envirius.Commands.Types where
+module Envirius.Types.Command where
 
 import Envirius.Commands.Ls as Ls
 import Envirius.Commands.Mk as Mk

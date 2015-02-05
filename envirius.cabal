@@ -18,8 +18,9 @@ cabal-version:       >=1.18
 executable envirius
   hs-source-dirs:       src
   main-is:              Envirius/Main.hs
-  other-modules:        Envirius.Commands.Types
+  other-modules:        Envirius.Types.Command
                       , Envirius.Commands.Ls
+                      , Envirius.Commands.Mk
   build-depends:        base        == 4.6.*
                       , process     >= 1.1
                       , directory   == 1.2.0.1
