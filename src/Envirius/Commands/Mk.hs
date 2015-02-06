@@ -1,15 +1,24 @@
 module Envirius.Commands.Mk where
 
+import Envirius.Types.Env
 import Envirius.Util (getAppName)
 
 
 action :: [String] -> IO ()
 action opts = do
-    if (length envName) == 0
-        then putStrLn "Please, enter a name for environment."
-        else putStrLn "Not implemented."
-  where envName = [o | o <- opts, (take 2 o) /= "--"]
-        saveMeta = "--no-meta" `elem` opts
+    -- TODO: add auto generate env-name
+    case parseEnvName opts of
+        Nothing -> putStrLn "Please, enter a name for environment."
+        Just env -> do
+            envExists <- isEnvExists env
+            case (envExists, reInstall) of
+                (True, False) -> putStrLn $ unlines [
+                        "Environment with name '" ++  (envName env) ++
+                                            "' is already exists.",
+                        "Please, choose another name and try again."]
+                (True, True) -> rmEnv env >> mkEnv env
+                _            -> mkEnv env
+  where saveMeta = "--no-meta" `elem` opts
         reInstall = "--force" `elem` opts
         activateAfter = "--on" `elem` opts
 
