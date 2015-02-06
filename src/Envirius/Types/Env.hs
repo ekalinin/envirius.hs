@@ -1,13 +1,16 @@
 module Envirius.Types.Env where
 
 import Data.List (find)
+import Data.Time (getCurrentTime, diffUTCTime)
 import System.Directory (createDirectoryIfMissing, removeDirectory)
 import System.Directory (doesDirectoryExist)
+
 import Envirius.Util (getEnvPath)
 
 data Env = Env { envName        :: String
                , envPlugins     :: [String]
                }
+               deriving (Show, Read)
 
 class Envable e where
 
@@ -15,11 +18,17 @@ class Envable e where
     rmEnv   :: e -> IO ()
     isEnvExists :: e -> IO Bool
 
+
 instance Envable Env where
 
     mkEnv env = do
+        startDt <- getCurrentTime
         putStrLn $ "Creating environment " ++ name ++ " ..."
         getEnvPath name >>= createDirectoryIfMissing True
+        --map (installPlugin env) (envPlugins env)
+        stopDt <- getCurrentTime
+        putStrLn $ " * done (in " ++ (show $ diffUTCTime stopDt startDt)
+                                  ++ ")."
       where name = envName env
 
     rmEnv env = do
@@ -31,6 +40,7 @@ instance Envable Env where
         getEnvPath name >>= doesDirectoryExist
       where name = envName env
 
-parseEnvName :: [String] -> Maybe Env
-parseEnvName opts = find (\x -> (take 2 x) /= "--") opts >>=
+
+parseEnv :: [String] -> Maybe Env
+parseEnv opts = find (\x -> (take 2 x) /= "--") opts >>=
     (\name -> Just Env {envName = name, envPlugins = []})
