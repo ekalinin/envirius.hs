@@ -19,6 +19,8 @@ executable envirius
   hs-source-dirs:       src
   main-is:              Envirius/Main.hs
   other-modules:        Envirius.Types.Command
+                      , Envirius.Types.Plugin
+                      , Envirius.Types.Env
                       , Envirius.Commands.Ls
                       , Envirius.Commands.Mk
   build-depends:        base        == 4.6.*

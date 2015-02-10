@@ -5,10 +5,11 @@ import Data.Time (getCurrentTime, diffUTCTime)
 import System.Directory (createDirectoryIfMissing, removeDirectory)
 import System.Directory (doesDirectoryExist)
 
+import Envirius.Types.Plugin
 import Envirius.Util (getEnvPath)
 
 data Env = Env { envName        :: String
-               , envPlugins     :: [String]
+               , envPlugins     :: [Plugin]
                }
                deriving (Show, Read)
 
@@ -26,6 +27,7 @@ instance Envable Env where
         putStrLn $ "Creating environment " ++ name ++ " ..."
         getEnvPath name >>= createDirectoryIfMissing True
         --map (installPlugin env) (envPlugins env)
+        mapM_ print  (envPlugins env)
         stopDt <- getCurrentTime
         putStrLn $ " * done (in " ++ (show $ diffUTCTime stopDt startDt)
                                   ++ ")."
@@ -42,5 +44,8 @@ instance Envable Env where
 
 
 parseEnv :: [String] -> Maybe Env
-parseEnv opts = find (\x -> (take 2 x) /= "--") opts >>=
-    (\name -> Just Env {envName = name, envPlugins = []})
+parseEnv xs = find (\x -> (take 2 x) /= "--") xs >>=
+    -- create a new environment with just founded name
+    (\name -> Just Env {envName = name, envPlugins = []}) >>=
+        -- added plugins into environment
+        (\env -> Just env {envPlugins = parsePlugins xs})
