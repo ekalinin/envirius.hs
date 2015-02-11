@@ -6,7 +6,7 @@ import System.Directory (createDirectoryIfMissing, removeDirectory)
 import System.Directory (doesDirectoryExist)
 
 import Envirius.Types.Plugin
-import Envirius.Util (getEnvPath)
+import Envirius.Util (getEnvPath, replace)
 
 data Env = Env { envName        :: String
                , envPlugins     :: [Plugin]
@@ -27,7 +27,7 @@ instance Envable Env where
         putStrLn $ "Creating environment " ++ name ++ " ..."
         getEnvPath name >>= createDirectoryIfMissing True
         --map (installPlugin env) (envPlugins env)
-        mapM_ print  (envPlugins env)
+        --mapM_ print  (envPlugins env)
         stopDt <- getCurrentTime
         putStrLn $ " * done (in " ++ (show $ diffUTCTime stopDt startDt)
                                   ++ ")."
@@ -43,9 +43,15 @@ instance Envable Env where
       where name = envName env
 
 
-parseEnv :: [String] -> Maybe Env
-parseEnv xs = find (\x -> (take 2 x) /= "--") xs >>=
-    -- create a new environment with just founded name
-    (\name -> Just Env {envName = name, envPlugins = []}) >>=
-        -- added plugins into environment
-        (\env -> Just env {envPlugins = parsePlugins xs})
+parseEnv :: [String] -> Env
+parseEnv xs = Env {envName = name, envPlugins = plugins}
+  where plugins = parsePlugins xs
+        name = case find (\x -> (take 2 x) /= "--") xs of
+                   Just name' -> name'
+                   Nothing -> generateEnvName xs
+
+generateEnvName :: [String] -> String
+generateEnvName = foldl helper ""
+  where formatName x = dropWhile (== '-') (replace '=' '-' x)
+        helper "" x  = formatName x
+        helper acc x = acc ++ "-" ++ (formatName x)
