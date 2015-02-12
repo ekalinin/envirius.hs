@@ -18,9 +18,9 @@ action opts = do
         (True, True) -> rmEnv env >> mkEnv env
         -- Just create an environment
         _            -> mkEnv env
-  where saveMeta = "--no-meta" `elem` opts
+  where _saveMeta = "--no-meta" `elem` opts
         reInstall = "--force" `elem` opts
-        activateAfter = "--on" `elem` opts
+        _activateAfter = "--on" `elem` opts
         env = parseEnv opts
 
 desc :: String
