@@ -88,6 +88,7 @@ showEnv showMeta envName = do
 remove :: Eq t => t -> [t] -> [t]
 remove r s = [c | c <- s, c /= r]
 
+replace :: Eq t => t -> t -> [t] -> [t]
 replace src dst s = [if c == src then dst else c | c <- s]
 
 showCmd :: Show a => a -> [Char]
