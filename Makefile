@@ -5,6 +5,9 @@ build:
 	@cabal configure
 	@cabal build
 
+shell:
+	@cabal repl
+
 tests:
 	#@cabal configure --enable-tests
 	#@cabal build
