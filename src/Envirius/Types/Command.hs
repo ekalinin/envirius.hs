@@ -14,9 +14,11 @@ data Command = Ls
              | Current
              deriving (Show, Read)
 
+-- | Returns all constructors for Command type
 getCommands :: [String]
 getCommands = $(listConstructors ''Command)
 
+-- | Parsed string and returns Command type
 parseCommand :: String -> Maybe Command
 parseCommand cmdStr = readMaybe $ capitalized cmdStr :: Maybe Command
 
