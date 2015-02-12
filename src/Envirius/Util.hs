@@ -93,3 +93,7 @@ replace src dst s = [if c == src then dst else c | c <- s]
 
 showCmd :: Show a => a -> [Char]
 showCmd c = map toLower $ show c
+
+rpad :: [Char] -> Int -> [Char]
+rpad srcString targetLength =
+    srcString ++ (replicate (targetLength - length srcString) ' ')

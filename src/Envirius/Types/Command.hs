@@ -1,9 +1,12 @@
 module Envirius.Types.Command where
 
+import Text.Read (readMaybe)
+
 import Envirius.Commands.Ls as Ls
 import Envirius.Commands.Mk as Mk
 import Envirius.Commands.Current as Current
-import Envirius.Util (showCmd, getAppName)
+import Envirius.Util (showCmd, getAppName, capitalized)
+import Envirius.TH (listConstructors)
 
 -- | Command type
 data Command = Ls
@@ -11,6 +14,11 @@ data Command = Ls
              | Current
              deriving (Show, Read)
 
+getCommands :: [String]
+getCommands = $(listConstructors ''Command)
+
+parseCommand :: String -> Maybe Command
+parseCommand cmdStr = readMaybe $ capitalized cmdStr :: Maybe Command
 
 -- | Type class for Commands
 class Commandable c where
