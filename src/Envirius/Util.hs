@@ -36,6 +36,9 @@ capitalized :: String -> String
 capitalized (x:xs) = toUpper x : map toLower xs
 capitalized [] = []
 
+currentEnv :: IO (Maybe String)
+currentEnv = lookupEnv "NV_USED_ENV"
+
 getRoot :: IO FilePath
 getRoot = do
     -- http://www.christopherbiscardi.com/2014/02/06/environment-variables-in-haskell/

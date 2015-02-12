@@ -2,11 +2,13 @@ module Envirius.Types.Command where
 
 import Envirius.Commands.Ls as Ls
 import Envirius.Commands.Mk as Mk
+import Envirius.Commands.Current as Current
 import Envirius.Util (showCmd, getAppName)
 
 -- | Command type
 data Command = Ls
              | Mk
+             | Current
              deriving (Show, Read)
 
 
@@ -23,22 +25,26 @@ instance Commandable Command where
 
     commandAction Ls = Ls.action
     commandAction Mk = Mk.action
+    commandAction Current = Current.action
 
     commandDesc Ls = Ls.desc
     commandDesc Mk = Mk.desc
+    commandDesc Current = Current.desc
 
     commandUsage Ls = Ls.usage
     commandUsage Mk = Mk.usage
+    commandUsage Current = Current.usage
 
     commandHelp cmd = putStrLn $ unlines help'
       where help_cmn = [
-                "Usage:       " ++ getAppName ++ " "
+                "Usage:       $ " ++ getAppName ++ " "
                                 ++ (showCmd cmd) ++ " " ++ (commandUsage cmd),
                 "Description: " ++ (commandDesc cmd),
                 ""]
             help_cmd = case cmd of
                        Ls -> Ls.help
                        Mk -> Mk.help
+                       Current -> Current.help
             help' = help_cmn ++ help_cmd
 
 
