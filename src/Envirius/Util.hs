@@ -5,7 +5,7 @@ import System.Directory (getHomeDirectory, doesFileExist)
 import System.Directory (getDirectoryContents)
 import System.Environment (lookupEnv)
 import Data.Maybe (fromMaybe)
-import Data.Char (toLower, toUpper)
+import Data.Char (toLower)
 import Data.List (sort)
 
 import Paths_envirius (version)
@@ -31,10 +31,6 @@ getPluginName s =
 getPluginVersion :: [Char] -> [Char]
 getPluginVersion s =
     drop 1 $ dropWhile (/= '=') $ unifyPluginStr s
-
-capitalized :: String -> String
-capitalized (x:xs) = toUpper x : map toLower xs
-capitalized [] = []
 
 currentEnv :: IO (Maybe String)
 currentEnv = lookupEnv "NV_USED_ENV"
@@ -91,9 +87,6 @@ remove r s = [c | c <- s, c /= r]
 replace :: Eq t => t -> t -> [t] -> [t]
 replace src dst s = [if c == src then dst else c | c <- s]
 
-showCmd :: Show a => a -> [Char]
-showCmd c = map toLower $ show c
-
-rpad :: [Char] -> Int -> [Char]
-rpad srcString targetLength =
+rpad :: Int -> [Char] -> [Char]
+rpad targetLength srcString =
     srcString ++ (replicate (targetLength - length srcString) ' ')

@@ -3,7 +3,7 @@
 import System.Environment (getArgs)
 
 import Envirius.Types.Command
-import Envirius.Util (getAppName, getAppVersion, rpad, showCmd)
+import Envirius.Util (getAppName, getAppVersion)
 
 
 commandNotFound :: String -> IO ()
@@ -20,13 +20,7 @@ help = putStrLn $ unlines $ [
         "",
         "Commands:"
     ]
-    ++
-    (map (\cmdStr -> "  " ++
-            case parseCommand cmdStr of
-                Just cmd -> (rpad (showCmd cmd) 15) ++ commandDesc cmd
-                Nothing -> cmdStr ++ " -- unknown command")
-         getCommands)
-    ++
+    ++ showCommands ++
     [
         "",
         "Try follow command to get help for certain command:",
@@ -39,8 +33,8 @@ main = do
     case rowArgs of
         ["--help"] -> help
         (cmdStr:args) ->
-            case parseCommand cmdStr of
-                Just cmd -> 
+            case readCommand cmdStr of
+                Just cmd ->
                     case args of
                         ["--help"] -> commandHelp cmd
                         _          -> commandAction cmd args
