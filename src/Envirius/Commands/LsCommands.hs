@@ -1,6 +1,12 @@
 module Envirius.Commands.LsCommands where
 
--- action is in Types.Command
+import Envirius.Types.Command
+
+cmd :: Cmd
+cmd = Cmd "ls-commands" action desc usage help
+
+action :: [String] -> IO ()
+action _opts = putStrLn "Will be replaced."
 
 -- command short name
 desc :: String

@@ -1,6 +1,10 @@
 module Envirius.Commands.Current where
 
+import Envirius.Types.Command
 import Envirius.Util (currentEnv)
+
+cmd :: Cmd
+cmd = Cmd "current" action desc usage help
 
 -- main command action
 action :: [String] -> IO ()
