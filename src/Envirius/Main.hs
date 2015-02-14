@@ -2,7 +2,7 @@
 
 import System.Environment (getArgs)
 
-import Envirius.Types.Command
+import Envirius.Commands
 import Envirius.Util (getAppName, getAppVersion)
 
 
@@ -20,7 +20,7 @@ help = putStrLn $ unlines $ [
         "",
         "Commands:"
     ]
-    ++ showCommands ++
+    ++ getCommandsDesc ++
     [
         "",
         "Try follow command to get help for certain command:",
@@ -33,10 +33,10 @@ main = do
     case rowArgs of
         ["--help"] -> help
         (cmdStr:args) ->
-            case readCommand cmdStr of
+            case cmdParse cmdStr of
                 Just cmd ->
                     case args of
-                        ["--help"] -> commandHelp cmd
-                        _          -> commandAction cmd args
+                        ["--help"] -> cmdShowHelp cmd
+                        _          -> cmdAction cmd args
                 Nothing -> commandNotFound cmdStr
         _ -> help

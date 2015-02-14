@@ -1,8 +1,11 @@
 module Envirius.Commands.Mk where
 
+import Envirius.Types.Command
 import Envirius.Types.Env
 import Envirius.Util (getAppName)
 
+cmd :: Cmd
+cmd = Cmd "mk" action desc usage help
 
 action :: [String] -> IO ()
 action opts = do
