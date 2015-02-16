@@ -22,3 +22,6 @@ loc2:
 
 loc3:
 	@cloc ./src/
+
+show-modules:
+	@find ./src/ -iname "*.hs" | xargs head -n 1 | grep -P -o "Envirius\.[\w\.]*" | sort
