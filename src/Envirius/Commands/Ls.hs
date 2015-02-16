@@ -1,4 +1,4 @@
-module Envirius.Commands.Ls where
+module Envirius.Commands.Ls (cmd) where
 
 import Envirius.Types.Command
 import Envirius.Util (listEnvs, showEnv)

@@ -1,4 +1,4 @@
-module Envirius.Commands.LsCommands where
+module Envirius.Commands.LsCommands (cmd) where
 
 import Envirius.Types.Command
 

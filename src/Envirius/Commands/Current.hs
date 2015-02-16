@@ -1,4 +1,4 @@
-module Envirius.Commands.Current where
+module Envirius.Commands.Current (cmd) where
 
 import Envirius.Types.Command
 import Envirius.Util (currentEnv)
